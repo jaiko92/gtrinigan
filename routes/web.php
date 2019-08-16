@@ -18,5 +18,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-    Route::resource('ordenes','OrdenController');
+    Route::resource('cargas','OrdenController');
+    Route::get('/customers/selectCliente','OrdenController@selectCliente');
+    Route::get('/address/selectRuta','OrdenController@selectRuta');
 });

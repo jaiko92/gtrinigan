@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Carga;
+use App\Cliente;
+use App\Ruta;
 use Illuminate\Http\Request;
 
 class OrdenController extends Controller
@@ -26,7 +28,7 @@ class OrdenController extends Controller
      */
     public function create()
     {
-        //
+        return view('ordenes.create');
     }
 
     /**
@@ -83,5 +85,25 @@ class OrdenController extends Controller
     public function destroy(Carga $carga)
     {
         //
+    }
+
+    public function selectCliente(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+        $filtro = $request->filtro;
+        $clientes = Cliente::where('razon_social', 'like', '%'. $filtro . '%')
+                                        ->orWhere('documento', 'like', '%'. $filtro . '%')
+                                        ->orWhere('email', 'like', '%'. $filtro . '%')
+                                        ->select('id','razon_social','documento')
+                                        ->orderBy('id', 'asc')->get();
+        return ['clientes' => $clientes];
+    }
+    public function selectRuta(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+        $filtro = $request->filtro;
+        $rutas = Ruta::where('origen', 'like', '%'. $filtro . '%')
+                                        ->orWhere('destino', 'like', '%'. $filtro . '%')
+                                        ->select('id','origen','destino')
+                                        ->orderBy('id', 'asc')->get();
+        return ['rutas' => $rutas];
     }
 }
