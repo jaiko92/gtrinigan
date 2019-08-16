@@ -2,7 +2,7 @@
 -- Host:                         localhost
 -- Versión del servidor:         5.7.24 - MySQL Community Server (GPL)
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             9.5.0.5332
+-- HeidiSQL Versión:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `chauffeurs` (
   UNIQUE KEY `chauffeurs_brevete_unique` (`brevete`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.chauffeurs: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.chauffeurs: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `chauffeurs` DISABLE KEYS */;
 INSERT INTO `chauffeurs` (`id`, `nombres`, `apellidos`, `ci`, `brevete`, `celular`, `telefono`, `email`, `created_at`, `updated_at`) VALUES
 	(1, 'roberth', 'chilo rojas', '6355631 SC', '6355631', 76880951, 76880952, 'escorpe25@gmail.com', '2019-07-25 01:46:59', '2019-07-25 01:46:59'),
@@ -93,12 +93,13 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla transporte.clientes: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
 INSERT INTO `clientes` (`id`, `razon_social`, `telfono`, `celular`, `documento_id`, `documento`, `email`, `dirreccion`, `created_at`, `updated_at`) VALUES
-	(1, 'KULJIS', 76893993, 76880951, 2, '7600202', 'escorpe25@gmail.com', 'villa corina calle 8', '2019-07-25 02:08:41', '2019-07-25 02:08:41');
+	(1, 'KULJIS', 76893993, 76880951, 2, '7600202', 'escorpe25@gmail.com', 'villa corina calle 8', '2019-07-25 02:08:41', '2019-07-25 02:08:41'),
+	(2, 'Coboce', 652356, 6547885, 2, '75456622', 'coboce@gmail.com', 'santa cruz', '2019-08-16 22:30:03', '2019-08-16 22:30:03');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.data_rows
@@ -283,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.documentos: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.documentos: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `documentos` DISABLE KEYS */;
 INSERT INTO `documentos` (`id`, `nombres`, `created_at`, `updated_at`) VALUES
 	(2, 'CI', '2019-07-25 01:52:06', '2019-07-25 01:52:06'),
@@ -327,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `menu_items` (
   PRIMARY KEY (`id`),
   KEY `menu_items_menu_id_foreign` (`menu_id`),
   CONSTRAINT `menu_items_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla transporte.menu_items: ~21 rows (aproximadamente)
 /*!40000 ALTER TABLE `menu_items` DISABLE KEYS */;
@@ -352,7 +353,8 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 	(18, 1, 'Documentos', '', '_self', 'voyager-book', '#000000', NULL, 18, '2019-07-25 01:51:18', '2019-07-27 23:20:50', 'voyager.documentos.index', 'null'),
 	(19, 1, 'Clientes', '', '_self', 'voyager-pirate', '#000000', NULL, 19, '2019-07-25 01:59:39', '2019-07-27 23:26:52', 'voyager.clientes.index', 'null'),
 	(20, 1, 'Rutas', '', '_self', 'voyager-thumb-tack', '#000000', NULL, 20, '2019-07-25 02:16:29', '2019-07-27 23:28:55', 'voyager.rutas.index', 'null'),
-	(22, 1, 'Categorias', '', '_self', 'voyager-milestone', NULL, NULL, 21, '2019-07-28 00:33:31', '2019-07-28 00:33:31', 'voyager.categorias.index', NULL);
+	(22, 1, 'Categorias', '', '_self', 'voyager-milestone', NULL, NULL, 21, '2019-07-28 00:33:31', '2019-07-28 00:33:31', 'voyager.categorias.index', NULL),
+	(23, 1, 'Ordenes', '', '_self', 'voyager-params', '#000000', NULL, 22, '2019-08-16 21:06:19', '2019-08-16 21:06:19', 'cargas.index', NULL);
 /*!40000 ALTER TABLE `menu_items` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.migrations
@@ -408,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `owners` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.owners: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.owners: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `owners` DISABLE KEYS */;
 INSERT INTO `owners` (`id`, `nombre`, `apellidos`, `direccion`, `telefono`, `celular`, `email`, `created_at`, `updated_at`) VALUES
 	(1, 'Juan', 'Noe Mendoza', 'zona ponpeya', 24566755, 788655, 'juan@gmail.com', '2019-07-25 01:12:41', '2019-07-25 01:12:41');
@@ -461,7 +463,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   KEY `permissions_key_index` (`key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.permissions: ~71 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.permissions: ~76 rows (aproximadamente)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id`, `key`, `table_name`, `created_at`, `updated_at`) VALUES
 	(1, 'browse_admin', NULL, '2019-07-25 00:47:35', '2019-07-25 00:47:35'),
@@ -553,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `permission_role` (
   CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.permission_role: ~127 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.permission_role: ~132 rows (aproximadamente)
 /*!40000 ALTER TABLE `permission_role` DISABLE KEYS */;
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 	(1, 1),
@@ -749,12 +751,14 @@ CREATE TABLE IF NOT EXISTS `rutas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla transporte.rutas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `rutas` DISABLE KEYS */;
 INSERT INTO `rutas` (`id`, `origen`, `destino`, `precio`, `created_at`, `updated_at`) VALUES
-	(1, 'ALIZAL-BENI', 'SANTA LUCIA -STA CRUZ', 130, '2019-07-25 02:18:01', '2019-07-28 00:41:16');
+	(1, 'ALIZAL-BENI', 'SANTA LUCIA -STA CRUZ', 130, '2019-07-25 02:18:01', '2019-07-28 00:41:16'),
+	(2, 'Trinidad', 'Santa Cruz', 520, '2019-08-16 22:32:01', '2019-08-16 22:32:01'),
+	(3, 'San andres', 'San pedro', 50, '2019-08-16 22:32:26', '2019-08-16 22:32:26');
 /*!40000 ALTER TABLE `rutas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.settings
