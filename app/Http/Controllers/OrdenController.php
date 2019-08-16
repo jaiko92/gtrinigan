@@ -14,7 +14,9 @@ class OrdenController extends Controller
      */
     public function index()
     {
-        return view('ordenes.index');
+        $cargas = Carga::orderBy('id','desc')
+                                    ->paginate(10);
+        return view('ordenes.index', compact('cargas'));
     }
 
     /**
