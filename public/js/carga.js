@@ -11,7 +11,17 @@ var app = new Vue({
 
     methods: {
         addLine: function() {
-            this.form.products.push({name: '', price: 0, qty: 1});
+            this.form.products.push({vehiculo_id: '', vehiculo: '', chofer_id:'', chofer:'', capacidad: 0, cantidad: 1, observacion: '', precio: 0, anticipo: 0, comision: 0});
+              vehiculo_id: '',
+                vehiculo: '',
+                chofer_id: '',
+                chofer:'',
+                capacidad: 0,
+                cantidad: 1,
+                observacion: '',
+                precio: 0,
+                anticipo: 0,
+                comision: 0
           },
         remove: function(product) {
         const index =this.form.products.indexOf(detalle);
