@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Carga;
 use App\Cliente;
 use App\Ruta;
+use App\Vehiculo;
+use App\Chauffeur;
 use Illuminate\Http\Request;
 
 class OrdenController extends Controller
@@ -105,5 +107,28 @@ class OrdenController extends Controller
                                         ->select('id','origen','destino')
                                         ->orderBy('id', 'asc')->get();
         return ['rutas' => $rutas];
+    }
+
+    public function selectVehicle(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+        $filtro = $request->filtro;
+        $vehiculos = Vehiculo::where('placa', 'like', '%'. $filtro . '%')
+                                        ->orWhere('modelo', 'like', '%'. $filtro . '%')
+                                        ->orWhere('n_motor', 'like', '%'. $filtro . '%')
+                                        ->orWhere('serie', 'like', '%'. $filtro . '%')
+                                        ->select('id','placa','modelo','n_motor','serie','capacidad')
+                                        ->orderBy('id', 'asc')->get();
+        return ['vehiculos' => $vehiculos];
+    }
+
+    public function selectChofer(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+        $filtro = $request->filtro;
+        $choferes = Chauffeur::where('nombres', 'like', '%'. $filtro . '%')
+                                        ->orWhere('apellidos', 'like', '%'. $filtro . '%')
+                                        ->orWhere('ci', 'like', '%'. $filtro . '%')
+                                        ->select('id','nombres','apellidos','ci')
+                                        ->orderBy('id', 'asc')->get();
+        return ['choferes' => $choferes];
     }
 }

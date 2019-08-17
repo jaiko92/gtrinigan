@@ -21,4 +21,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('cargas','OrdenController');
     Route::get('/customers/selectCliente','OrdenController@selectCliente');
     Route::get('/address/selectRuta','OrdenController@selectRuta');
+    Route::get('/vehicles/selectvehicle','OrdenController@selectVehicle');
+    Route::get('/choferes/selectchofer','OrdenController@selectChofer');
 });

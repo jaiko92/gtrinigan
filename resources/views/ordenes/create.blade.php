@@ -45,6 +45,8 @@
         window._form = {
             arrayCliente:[],
             arrayRuta: [],
+            arrayVehicle: [],
+            arrayChoferes: [],
             ruta: '',
             client: '',
             client_id: '',
@@ -60,10 +62,8 @@
                 cantidad: 1,
                 observacion: '',
                 precio: 0,
-                subtotal: 0,
                 anticipo: 0,
-                comision: 0,
-                total: 0
+                comision: 0
             }]
         };
     </script>

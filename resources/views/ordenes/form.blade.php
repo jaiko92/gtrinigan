@@ -71,20 +71,85 @@
     <p class="alert alert-danger">@{{errors.products_empty[0]}}</p>
     <hr>
 </div>
-<table class="table table-bordered table-form">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Tipo tratamiento</th>
+            <th>Vehiculo</th>
+            <th>Chofer</th>
+            <th>Capacidad</th>
             <th>Cantidad</th>
+            <th>Observ.</th>
+            <th>Precio</th>
+            <th>SubTotal</th>
+            <th>Anticipo</th>
+            <th>Comision</th>
+            <th>Total</th>
         </tr>
     </thead>
     <tbody>
         <tr v-for="(product, index) in form.products">
-            <td class="table-name" :class="{'table-error': errors['products.' + index + '.descripcion']}">
-                <textarea class="table-control" v-model="product.descripcion"></textarea>
+            <td>
+                <v-select
+                :filterable="false"
+                @search="selectVehicle"
+                label="nombre"
+                :options="form.arrayVehicle"
+                placeholder="seleccione..."
+                @input="getDatosVehicle(index, $event)"                                       
+                >
+                <template slot="option" slot-scope="option">
+                    <span>@{{option.placa}}</span>
+                </template>
+                <template slot="selected-option" slot-scope="option">
+                    <div class="selected d-center">
+                       @{{option.placa}}
+                    </div>
+                </template>
+                </v-select>
             </td>
-            <td class="table-qty" :class="{'table-error': errors['products.' + index + '.cantidad']}">
-                <input type="text" class="table-control" v-model="product.cantidad">
+             <td>
+                <v-select
+                :filterable="false"
+                @search="selectChofer"
+                label="nombre"
+                :options="form.arrayChoferes"
+                placeholder="seleccione..."
+                @input="getDatosChofer(index, $event)"                                       
+                >
+                <template slot="option" slot-scope="option">
+                            @{{option.nombres}} -
+                <span>@{{option.apellidos}}</span>
+                </template>
+                <template slot="selected-option" slot-scope="option">
+                    <div class="selected d-center">
+                       @{{option.nombres}}
+                    </div>
+                </template>
+                </v-select>
+            </td>
+             <td>
+                <span>@{{product.capacidad}}</span>
+            </td>
+            <td>
+                <input type="text" class="form-control" v-model="product.cantidad">
+            </td>
+            <td>
+               <textarea class="form-control" v-model="product.observacion"></textarea>
+            </td>
+            <td>
+                <input type="text" class="form-control" v-model="product.precio">
+            </td>
+            <td>
+                <span>@{{product.capacidad * product.precio}}</span>
+            </td>
+            <td>
+                <input type="text" class="form-control" v-model="product.anticipo">
+            </td>
+             <td>
+                <input type="text" class="form-control" v-model="product.comision">
+            </td>
+             <td>
+                <span>@{{ ((product.capacidad * product.precio) - product.anticipo) - product.comision}}</span>
             </td>
             <td class="table-remove">
                 <span @click="remove(product)" class="table-remove-btn">&times;</span>
