@@ -6,6 +6,7 @@ use App\Carga;
 use App\Detalle;
 use App\Cliente;
 use App\Cuenta;
+use App\DetalleCuenta;
 use App\Ruta;
 use App\Vehiculo;
 use App\Chauffeur;
@@ -58,22 +59,42 @@ class OrdenController extends Controller
         }
         $data = $request->except('products');
         $data['user_id'] = Auth::user()->id;;
-        $data['precio_envio'] = $products->sum('sub_total');
+        $data['precio_envio'] = $products->sum('subtotal'); 
         $data['cant_llevadas'] = $products->sum('cantidad');
         $data['pago_transporte'] = $products->sum('total');
         $carga = Carga::create($data);
         $carga->products()->saveMany($products);
 
         //guardamos las cuentas por cobrar
-        $deudacliente = $carga->precio_envio - $carga->anticipo;
-
-        if ($carga->anticipo == $carga->precio_envio) {
-            $estado = Cuenta::FINALIZADO;
-        }else {
+        if ($carga->anticipo) {
+            $deudacliente = $carga->precio_envio - $carga->anticipo;
+                if ($carga->anticipo == $carga->precio_envio) {
+                    $estado = Cuenta::FINALIZADO;
+                }else {
+                    $estado = Cuenta::VIGENTE;
+                }
+                $cuenta = new Cuenta;
+                $cuenta->cuenta_id = $carga->id;
+                $cuenta->cuenta_type = 'App\Carga';
+                $cuenta->deuda = $deudacliente;
+                $cuenta->estado = $estado;
+                $cuenta->save();
+                
+                $det_cuenta = new DetalleCuenta;
+                $det_cuenta->cuenta_id = $carga->id;
+                $det_cuenta->abonado =$carga->anticipo;
+                $det_cuenta->save();
+        } else {
+            $deudacliente = $carga->precio_envio;
             $estado = Cuenta::VIGENTE;
+            $cuenta = new Cuenta;
+            $cuenta->cuenta_id = $carga->id;
+            $cuenta->cuenta_type = "App\Carga";
+            $cuenta->deuda = $deudacliente;
+            $cuenta->estado = $estado;
+            $cuenta->save();
         }
-        $carga->cuentas()->attach(['deuda'=>$deudacliente,'estado'=> $estado]);
-
+        
         return response()
             ->json([
                 'created' => true,
