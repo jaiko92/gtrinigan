@@ -16,6 +16,27 @@
 CREATE DATABASE IF NOT EXISTS `transporte` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `transporte`;
 
+-- Volcando estructura para tabla transporte.cargas
+CREATE TABLE IF NOT EXISTS `cargas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cliente_id` int(10) unsigned NOT NULL,
+  `ruta_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `cantidad_reses` int(11) DEFAULT NULL,
+  `cant_llevadas` int(11) DEFAULT NULL,
+  `precio_envio` decimal(8,2) DEFAULT NULL,
+  `anticipo` decimal(8,2) DEFAULT NULL,
+  `pago_transporte` decimal(8,2) DEFAULT NULL,
+  `observacion` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla transporte.cargas: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `cargas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cargas` ENABLE KEYS */;
+
 -- Volcando estructura para tabla transporte.categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -101,6 +122,22 @@ INSERT INTO `clientes` (`id`, `razon_social`, `telfono`, `celular`, `documento_i
 	(1, 'KULJIS', 76893993, 76880951, 2, '7600202', 'escorpe25@gmail.com', 'villa corina calle 8', '2019-07-25 02:08:41', '2019-07-25 02:08:41'),
 	(2, 'Coboce', 652356, 6547885, 2, '75456622', 'coboce@gmail.com', 'santa cruz', '2019-08-16 22:30:03', '2019-08-16 22:30:03');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+
+-- Volcando estructura para tabla transporte.cuentas
+CREATE TABLE IF NOT EXISTS `cuentas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cuenta_id` int(10) unsigned NOT NULL,
+  `cuenta_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deuda` decimal(8,2) DEFAULT NULL,
+  `estado` enum('vigente','finalizada') COLLATE utf8mb4_unicode_ci DEFAULT 'vigente',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla transporte.cuentas: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `cuentas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cuentas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.data_rows
 CREATE TABLE IF NOT EXISTS `data_rows` (
@@ -274,6 +311,44 @@ INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `displa
 	(12, 'rutas', 'rutas', 'Ruta', 'Rutas', NULL, 'App\\Ruta', NULL, NULL, NULL, 1, 0, '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null}', '2019-07-25 02:16:29', '2019-07-25 02:16:29'),
 	(14, 'categorias', 'categorias', 'Categoria', 'Categorias', 'voyager-milestone', 'App\\Categoria', NULL, NULL, NULL, 1, 0, '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null}', '2019-07-28 00:33:30', '2019-07-28 00:33:30');
 /*!40000 ALTER TABLE `data_types` ENABLE KEYS */;
+
+-- Volcando estructura para tabla transporte.detalles
+CREATE TABLE IF NOT EXISTS `detalles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `carga_id` int(10) unsigned NOT NULL,
+  `vehiculo_id` int(10) unsigned NOT NULL,
+  `chofer_id` int(10) unsigned NOT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `categoria_id` int(10) unsigned DEFAULT NULL,
+  `observacion` text COLLATE utf8mb4_unicode_ci,
+  `precio` decimal(10,0) DEFAULT NULL,
+  `subtotal` decimal(10,0) DEFAULT NULL,
+  `anticipo` decimal(10,0) DEFAULT NULL,
+  `comision` decimal(10,0) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla transporte.detalles: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `detalles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalles` ENABLE KEYS */;
+
+-- Volcando estructura para tabla transporte.detalle_cuentas
+CREATE TABLE IF NOT EXISTS `detalle_cuentas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cuenta_id` int(10) unsigned NOT NULL,
+  `abonado` decimal(10,0) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla transporte.detalle_cuentas: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `detalle_cuentas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalle_cuentas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.documentos
 CREATE TABLE IF NOT EXISTS `documentos` (
@@ -753,7 +828,7 @@ CREATE TABLE IF NOT EXISTS `rutas` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.rutas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.rutas: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `rutas` DISABLE KEYS */;
 INSERT INTO `rutas` (`id`, `origen`, `destino`, `precio`, `created_at`, `updated_at`) VALUES
 	(1, 'ALIZAL-BENI', 'SANTA LUCIA -STA CRUZ', 130, '2019-07-25 02:18:01', '2019-07-28 00:41:16'),
@@ -861,7 +936,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcando datos para la tabla transporte.users: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `remember_token`, `settings`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', NULL, '$2y$10$.yjLlxXN6f7qtYDkk17zve/BVlPpxuwm3vuQvFzWkUeOBhmR5ErjG', 'D46j3GaJGMm0HwAfg4UgRCyJN5DDlNETKneOhSmSlNjM7m16dbFCNfkKjKN5', NULL, '2019-07-25 00:47:53', '2019-07-25 00:47:53'),
+	(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', NULL, '$2y$10$.yjLlxXN6f7qtYDkk17zve/BVlPpxuwm3vuQvFzWkUeOBhmR5ErjG', '5D53xFqOWUsHDiD0Lydpw0i3XTK2kTdC6llmWZmRbUepT2miWvnavGdjw94H', NULL, '2019-07-25 00:47:53', '2019-07-25 00:47:53'),
 	(2, 3, 'Karen', 'karen@gmail.com', 'users\\July2019\\fe9YHJ423oMj11uxjDPa.png', NULL, '$2y$10$yaDNNxbnVGV58463N0/WUufleq9cRbPx.DI4rkSvG1nbFxmeydG6O', NULL, '{"locale":"es"}', '2019-07-25 02:25:22', '2019-07-25 13:35:27');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
