@@ -12,19 +12,9 @@ var app = new Vue({
     methods: {
         addLine: function() {
             this.form.products.push({vehiculo_id: '', vehiculo: '', chofer_id:'', chofer:'', capacidad: 0, cantidad: 1, observacion: '', precio: 0, anticipo: 0, comision: 0});
-              vehiculo_id: '',
-                vehiculo: '',
-                chofer_id: '',
-                chofer:'',
-                capacidad: 0,
-                cantidad: 1,
-                observacion: '',
-                precio: 0,
-                anticipo: 0,
-                comision: 0
           },
         remove: function(product) {
-        const index =this.form.products.indexOf(detalle);
+        const index =this.form.products.indexOf(product);
             this.form.products.splice(index, 1);
         },
         selectCliente(search,loading){
@@ -45,7 +35,12 @@ var app = new Vue({
         getDatosCliente(val1){
             let me = this;
             me.loading = true;
-            me.form.client_id = val1.id;
+            me.form.cliente_id = val1.id;
+        },
+        getDatosRuta(val){
+            let me = this;
+            me.loading = true;
+            me.form.ruta_id = val.id;
         },
         selectRuta(search,loading){
             let me=this;
@@ -106,6 +101,20 @@ var app = new Vue({
            Vue.set(this.form.products[index], 'chofer', e.nombres)
            Vue.set(this.form.products[index], 'chofer_id', e.id)
         },
-        create(){}
-    },
+        create(){
+             this.isProcessing = true;
+            this.$http.post('/admin/cargas', this.form)
+                .then(function(response) {
+                if(response.data.created) {
+                    window.location = '/admin/cargas/' + response.data.id;
+                } else {
+                    this.isProcessing = false;
+                }
+                })
+                .catch(function(response) {
+                this.isProcessing = false;
+                Vue.set(this.$data, 'errors', response.data);
+                })
+        }
+    }
 });

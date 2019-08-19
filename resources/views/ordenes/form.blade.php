@@ -25,14 +25,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Precio del Envio</label>
-                    <input type="text" class="form-control" v-model="form.precio_envio">
+                    <label>Anticipo</label>
+                    <input type="text" class="form-control" v-model="form.anticipo">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Anticipo</label>
-                    <input type="text" class="form-control" v-model="form.anticipo">
+                    <label>Cantidad de Animal</label>
+                    <input type="text" class="form-control" v-model="form.cantidad_reses">
                 </div>
             </div>
         </div>
@@ -43,10 +43,11 @@
             <v-select
                 :filterable="false"
                 @search="selectRuta"
+                 v-model="form.ruta"       
                 label="nombre"
                 :options="form.arrayRuta"
                 placeholder="seleccione la ruta..."
-                v-model="form.ruta"                                        
+                 :change="getDatosRuta(form.ruta)"                                   
             >
             <template slot="option" slot-scope="option">
                              @{{option.origen}} -
@@ -61,8 +62,8 @@
             </v-select>
         </div>
         <div class="form-group">
-            <label>Cantidad de Animal</label>
-            <input type="text" class="form-control" v-model="form.cantidad_reses">
+             <label for="">Observacion</label>
+           <textarea class="form-control" v-model="form.observacion"></textarea>
         </div>
     </div>
 </div>

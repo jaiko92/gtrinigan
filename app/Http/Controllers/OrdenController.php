@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Carga;
+use App\Detalle;
 use App\Cliente;
+use App\Cuenta;
 use App\Ruta;
 use App\Vehiculo;
 use App\Chauffeur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrdenController extends Controller
 {
@@ -41,7 +44,41 @@ class OrdenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $products = collect($request->products)->transform(function($product) {
+            $product['subtotal'] = $product['capacidad'] * $product['precio'];
+            $product['total'] = ($product['subtotal'] - $product['anticipo']) - $product['comision'];
+            return new Detalle($product);
+        });
+        if($products->isEmpty()) {
+            return response()
+            ->json([
+                'products_empty' => ['Se requiere uno o más productos.']
+            ], 422);
+        }
+        $data = $request->except('products');
+        $data['user_id'] = Auth::user()->id;;
+        $data['precio_envio'] = $products->sum('sub_total');
+        $data['cant_llevadas'] = $products->sum('cantidad');
+        $data['pago_transporte'] = $products->sum('total');
+        $carga = Carga::create($data);
+        $carga->products()->saveMany($products);
+
+        //guardamos las cuentas por cobrar
+        $deudacliente = $carga->precio_envio - $carga->anticipo;
+
+        if ($carga->anticipo == $carga->precio_envio) {
+            $estado = Cuenta::FINALIZADO;
+        }else {
+            $estado = Cuenta::VIGENTE;
+        }
+        $carga->cuentas()->attach(['deuda'=>$deudacliente,'estado'=> $estado]);
+
+        return response()
+            ->json([
+                'created' => true,
+                'id' => $carga->id
+            ]);
     }
 
     /**
@@ -50,9 +87,10 @@ class OrdenController extends Controller
      * @param  \App\Carga  $carga
      * @return \Illuminate\Http\Response
      */
-    public function show(Carga $carga)
+    public function show($id)
     {
-        //
+        $carga = Carga::with(['products','user','ruta','cliente'])->findOrFail($id);
+        return view('ordenes.show', compact('carga'));
     }
 
     /**
