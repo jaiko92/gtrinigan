@@ -9,6 +9,6 @@ class DetalleCuenta extends Model
 {
     protected $table = 'detalle_cuentas';
     protected $fillable = [
-        'cuenta_id','abonado','fecha'
+        'cuenta_id','abonado'
     ];
 }

@@ -31,10 +31,12 @@ CREATE TABLE IF NOT EXISTS `cargas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla transporte.cargas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `cargas` DISABLE KEYS */;
+INSERT INTO `cargas` (`id`, `cliente_id`, `ruta_id`, `user_id`, `cantidad_reses`, `cant_llevadas`, `precio_envio`, `anticipo`, `pago_transporte`, `observacion`, `created_at`, `updated_at`) VALUES
+	(3, 1, 2, 1, 800, 105, 20350.00, 10000.00, 12475.00, 'de anicipo 10000', '2019-08-20 15:01:41', '2019-08-20 15:01:41');
 /*!40000 ALTER TABLE `cargas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.categorias
@@ -133,10 +135,12 @@ CREATE TABLE IF NOT EXISTS `cuentas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.cuentas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.cuentas: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `cuentas` DISABLE KEYS */;
+INSERT INTO `cuentas` (`id`, `cuenta_id`, `cuenta_type`, `deuda`, `estado`, `created_at`, `updated_at`) VALUES
+	(3, 3, 'App\\Carga', 10350.00, 'vigente', '2019-08-20 15:01:42', '2019-08-20 15:01:42');
 /*!40000 ALTER TABLE `cuentas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.data_rows
@@ -329,10 +333,13 @@ CREATE TABLE IF NOT EXISTS `detalles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.detalles: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.detalles: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `detalles` DISABLE KEYS */;
+INSERT INTO `detalles` (`id`, `carga_id`, `vehiculo_id`, `chofer_id`, `cantidad`, `categoria_id`, `observacion`, `precio`, `subtotal`, `anticipo`, `comision`, `total`, `created_at`, `updated_at`) VALUES
+	(5, 3, 1, 2, 50, NULL, 'ninguna', 190, 10450, 4000, 190, 6260, '2019-08-20 15:01:41', '2019-08-20 15:01:41'),
+	(6, 3, 1, 1, 55, NULL, NULL, 180, 9900, 3500, 185, 6215, '2019-08-20 15:01:42', '2019-08-20 15:01:42');
 /*!40000 ALTER TABLE `detalles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.detalle_cuentas
@@ -340,14 +347,15 @@ CREATE TABLE IF NOT EXISTS `detalle_cuentas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cuenta_id` int(10) unsigned NOT NULL,
   `abonado` decimal(10,0) DEFAULT NULL,
-  `fecha` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla transporte.detalle_cuentas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla transporte.detalle_cuentas: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `detalle_cuentas` DISABLE KEYS */;
+INSERT INTO `detalle_cuentas` (`id`, `cuenta_id`, `abonado`, `created_at`, `updated_at`) VALUES
+	(2, 3, 10000, '2019-08-20 15:01:42', '2019-08-20 15:01:42');
 /*!40000 ALTER TABLE `detalle_cuentas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla transporte.documentos
@@ -936,7 +944,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcando datos para la tabla transporte.users: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `remember_token`, `settings`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', NULL, '$2y$10$.yjLlxXN6f7qtYDkk17zve/BVlPpxuwm3vuQvFzWkUeOBhmR5ErjG', '5D53xFqOWUsHDiD0Lydpw0i3XTK2kTdC6llmWZmRbUepT2miWvnavGdjw94H', NULL, '2019-07-25 00:47:53', '2019-07-25 00:47:53'),
+	(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', NULL, '$2y$10$.yjLlxXN6f7qtYDkk17zve/BVlPpxuwm3vuQvFzWkUeOBhmR5ErjG', 'zseG0bow6WopCD95GtS8FtEAMkVAUajNRW1vvl5NQ3GCjYF7oFqTbJRcDdIH', NULL, '2019-07-25 00:47:53', '2019-07-25 00:47:53'),
 	(2, 3, 'Karen', 'karen@gmail.com', 'users\\July2019\\fe9YHJ423oMj11uxjDPa.png', NULL, '$2y$10$yaDNNxbnVGV58463N0/WUufleq9cRbPx.DI4rkSvG1nbFxmeydG6O', NULL, '{"locale":"es"}', '2019-07-25 02:25:22', '2019-07-25 13:35:27');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
