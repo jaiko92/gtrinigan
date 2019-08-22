@@ -23,4 +23,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/address/selectRuta','OrdenController@selectRuta');
     Route::get('/vehicles/selectvehicle','OrdenController@selectVehicle');
     Route::get('/choferes/selectchofer','OrdenController@selectChofer');
+    Route::resource('cobrarcuentas','CobrarCuentaController');
 });

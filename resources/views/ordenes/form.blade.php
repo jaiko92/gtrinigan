@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="">Cliente(*)</label>
+            <label for="">Cliente <b class="text-danger">(*)</b></label>
             <v-select
                 :filterable="false"
                  v-model="form.client"
@@ -26,20 +26,20 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Anticipo</label>
-                    <input type="text" class="form-control" v-model="form.anticipo">
+                    <input type="text" class="form-control" v-model="form.anticipo" placeholder="enter..">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Cantidad de Animal</label>
-                    <input type="text" class="form-control" v-model="form.cantidad_reses">
+                    <input type="text" class="form-control" v-model="form.cantidad_reses" placeholder="enter..">
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-         <label for="">Ruta(*)</label>
+         <label for="">Ruta <b class="text-danger">(*)</b></label>
             <v-select
                 :filterable="false"
                 @search="selectRuta"
@@ -63,7 +63,7 @@
         </div>
         <div class="form-group">
              <label for="">Observacion</label>
-           <textarea class="form-control" v-model="form.observacion"></textarea>
+           <textarea class="form-control" v-model="form.observacion" placeholder="enter Obser."></textarea>
         </div>
     </div>
 </div>
@@ -72,19 +72,20 @@
     <p class="alert alert-danger">@{{errors.products_empty[0]}}</p>
     <hr>
 </div>
-<table class="table table-bordered">
+
+<table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Vehiculo</th>
-            <th>Chofer</th>
-            <th>Capacidad</th>
+            <th class="col-md-2">Vehiculo</th>
+            <th class="col-md-2">Chofer</th>
+            <th >Capacidad</th>
             <th>Cantidad</th>
-            <th>Observ.</th>
+            <th class="col-md-1">Observ.</th>
             <th>Precio</th>
             <th>SubTotal</th>
             <th>Anticipo</th>
             <th>Comision</th>
-            <th>Total</th>
+            <th class="col-md-1">Total</th>
         </tr>
     </thead>
     <tbody>
@@ -138,22 +139,22 @@
                <textarea class="form-control" v-model="product.observacion"></textarea>
             </td>
             <td>
-                <input type="text" class="form-control" v-model="product.precio">
+                <input type="text" class="form-control" v-model="product.precio"> 
             </td>
             <td>
-                <span>@{{product.capacidad * product.precio}}</span>
+                <span>@{{product.capacidad * product.precio}}</span> 
             </td>
             <td>
-                <input type="text" class="form-control" v-model="product.anticipo">
+                <input type="text" class="form-control" v-model="product.anticipo"> 
             </td>
              <td>
-                <input type="text" class="form-control" v-model="product.comision">
+                <input type="text" class="form-control" v-model="product.comision"> 
             </td>
              <td>
-                <span>@{{ ((product.capacidad * product.precio) - product.anticipo) - product.comision}}</span>
+                <span>@{{ ((product.capacidad * product.precio) - product.anticipo) - product.comision}}</span> Bs
             </td>
             <td class="table-remove">
-                <span @click="remove(product)" class="table-remove-btn">&times;</span>
+               <span @click="remove(product)" class="table-remove-btn"> <b>&times;</b></span>
             </td>
         </tr>
     </tbody>
@@ -161,6 +162,7 @@
         <tr>
             <td class="table-empty" colspan="2">
                 <span @click="addLine" class="table-add_line">Agregar linea</span>
+
             </td>
         </tr>
     </tfoot>

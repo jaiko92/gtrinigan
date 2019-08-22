@@ -4,6 +4,9 @@
         <h1 class="page-title">
             <i class="voyager-list-add"></i> Nuevo Registro 
         </h1>
+       <a href="{{route('cargas.index')}}" class="btn btn-warning ">
+                <span>{{ __('volver a la lista') }}</span>
+           </a> 
     </div>
 @stop
 @section('content')
@@ -20,7 +23,9 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        @include('ordenes.form')
+                        <div class="table-responsive">  
+                            @include('ordenes.form')
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <a href="{{route('cargas.index')}}" class="btn btn-default">CANCEL</a>

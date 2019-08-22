@@ -13,7 +13,7 @@ class Cuenta extends Model
     public static $estados = [self::VIGENTE, self::FINALIZADO];
 
     protected $fillable = [
-        'cuenta_id','cuenta_type','deuda','estado'
+        'carga_id','deuda','estado'
     ];
 
     public function cargas()

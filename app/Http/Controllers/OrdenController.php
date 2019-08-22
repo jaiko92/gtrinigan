@@ -74,8 +74,7 @@ class OrdenController extends Controller
                     $estado = Cuenta::VIGENTE;
                 }
                 $cuenta = new Cuenta;
-                $cuenta->cuenta_id = $carga->id;
-                $cuenta->cuenta_type = 'App\Carga';
+                $cuenta->carga_id = $carga->id;
                 $cuenta->deuda = $deudacliente;
                 $cuenta->estado = $estado;
                 $cuenta->save();
@@ -88,8 +87,7 @@ class OrdenController extends Controller
             $deudacliente = $carga->precio_envio;
             $estado = Cuenta::VIGENTE;
             $cuenta = new Cuenta;
-            $cuenta->cuenta_id = $carga->id;
-            $cuenta->cuenta_type = "App\Carga";
+            $cuenta->carga_id = $carga->id;
             $cuenta->deuda = $deudacliente;
             $cuenta->estado = $estado;
             $cuenta->save();
