@@ -20,12 +20,6 @@ class CobrarCuentaController extends Controller
         return view('cuentasxcobrar.index', compact('cuentas'));
     }
 
-    public function store(){
-
-    	$cuenta = new Cuenta;
-
-    	
-    }
 
 
 
