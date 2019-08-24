@@ -12,13 +12,11 @@ class Cuenta extends Model
     
     public static $estados = [self::VIGENTE, self::FINALIZADO];
 
-    protected $fillable = [
-        'carga_id','deuda','estado'
-    ];
+    protected $fillable = [ 'carga_id','deuda','estado'];
 
-    public function cargas()
+    public function carga()
     {
-        return $this->morphedByMany(Carga::class, 'cuenta');
+        return $this->belongsTo(Carga::class);
     }
 
     /**

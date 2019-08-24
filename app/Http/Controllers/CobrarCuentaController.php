@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Cuenta;
+use App\Carga;
+use App\Detalle;
 
 class CobrarCuentaController extends Controller
 {
@@ -14,11 +16,16 @@ class CobrarCuentaController extends Controller
      */
     
     public function index(){
-    //
-        return view('cuentasxcobrar.index');
+        $cuentas = Cuenta::with(['carga','carga.cliente' ])->get();
+        return view('cuentasxcobrar.index', compact('cuentas'));
     }
 
+    public function store(){
 
+    	$cuenta = new Cuenta;
+
+    	
+    }
 
 
 

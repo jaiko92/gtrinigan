@@ -44,13 +44,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                      
+                                                @foreach($cuentas  as $cuenta)
                                                 <tr>
-                                                    <td>25</td>
-                                                    <td>jaiko</td>
-                                                    <td>10,000 Bs</td>
-                                                    <td>5,000  Bs</td>
-                                                    <td>Vigente</td>
+                                                    <td>{{$cuenta->carga->id}}</td>
+                                                    <td>{{$cuenta->carga->cliente->razon_social}}</td>
+                                                    <td>{{$cuenta->deuda}}</td>
+                                                    <td>{{$cuenta->deuda}}</td>
+                                                    <td>{{$cuenta->estado}}</td>
                                                     <td class="no-sort no-click text-right" id="">
                                                        
                                                         <a href="#" title="pagar" class="btn btn-sm btn-primary" data-id="" data-toggle="modal" data-target="#modal_abonar">
@@ -64,7 +64,7 @@
                                                         </button>
                                                     </td>
                                                 </tr>
-                                        
+                                        @endforeach
                                             <tr>
                                                 <td colspan="6"><p class="text-center"><br>No hay registros para mostrar.</p></td>
                                             </tr>
