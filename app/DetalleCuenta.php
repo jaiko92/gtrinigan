@@ -11,4 +11,10 @@ class DetalleCuenta extends Model
     protected $fillable = [
         'cuenta_id','abonado'
     ];
+    public function cuenta()
+    {
+        return $this->belongsTo(Cuenta::class);
+    }
 }
+
+

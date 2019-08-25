@@ -48,14 +48,15 @@
                                                 <tr>
                                                     <td>{{$cuenta->carga->id}}</td>
                                                     <td>{{$cuenta->carga->cliente->razon_social}}</td>
-                                                    <td>{{$cuenta->deuda}}</td>
+                                                    <td>{{$cuenta->carga->precio_envio}}</td>
                                                     <td>{{$cuenta->deuda}}</td>
                                                     <td>{{$cuenta->estado}}</td>
-                                                    <td class="no-sort no-click text-right" id="">
-                                                       
-                                                        <a href="#" title="pagar" class="btn btn-sm btn-primary" data-id="" data-toggle="modal" data-target="#modal_abonar">
+                                                    <td class="no-sort no-click" id="bread-actions">
+                                                       @if($cuenta->estado != "finalizado")
+                                                           <a href="javascript:;" title="pagar" class="btn btn-sm btn-primary delete" data-id="{{$cuenta->id}}" id="delete-{{$cuenta->id}}">
                                                             <span class="hidden-xs hidden-sm">Abonar</span>
-                                                        </a>
+                                                           </a>
+                                                       @endif
                                                         <button class="btn btn-warning" 
                                                             data-id="" data-toggle="modal" data-target="#modal_detalleCxC">Ver
                                                         </button>
@@ -64,7 +65,7 @@
                                                         </button>
                                                     </td>
                                                 </tr>
-                                        @endforeach
+                                                @endforeach
                                             <tr>
                                                 <td colspan="6"><p class="text-center"><br>No hay registros para mostrar.</p></td>
                                             </tr>
@@ -80,6 +81,7 @@
 
         {{-- modal pagar cuentas --}}
         <form action="" method="POST">
+               @csrf
             <div class="modal modal-primary fade" tabindex="-1" id="modal_abonar" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -92,13 +94,13 @@
                         </div>
 
                         <div class="modal-body">
-                            <form role="form">
+                            <form role="form" action="POST">
                                   <div class="box-body">
                                      <div class="row ">
                                         <div class="col-md-12 offset-md-3">
                                             <div class="form-group">
                                                  <label class="h4">Ingrese el Monto :</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="00.Bs">
+                                                <input type="number" class="form-control" id="input-monto" placeholder="00.Bs">
                                             </div>
                                          </div>
                                     </div>
@@ -107,7 +109,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" name="id" value="">
-                            <input type="submit" class="btn btn-primary pull-right delete-confirm"value="Agregar">
+                            <input  type="submit" class="btn btn-primary pull-right "value="Agregar">
                             <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
                                 Cancelar
                             </button>
@@ -119,6 +121,7 @@
 
         {{-- modal Ver Detalle cuentas x pogar --}}
         <form action="" method="POST">
+
             <div class="modal modal-warning fade" tabindex="-1" id="modal_detalleCxC" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -170,6 +173,35 @@
                 </div>
             </div>
         </form>
+
+         {{-- Single delete modal --}}
+    <div class="modal modal-primary fade" tabindex="-1" id="delete_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-plus"></i> {{ __('Formulario pagar :') }} </h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="delete_form" method="POST">
+                        {{ csrf_field() }}
+                        <div class="box-body">
+                            <div class="row ">
+                               <div class="col-md-12 offset-md-3">
+                                   <div class="form-group text-center">
+                                        <label class="h4">Ingrese el Monto :</label>
+                                       <input type="number" name="abonado" class="form-control" placeholder="00.Bs">
+                                   </div>
+                                </div>
+                           </div>
+                        </div>
+                       <input type="submit" class="btn btn-primary pull-right delete-confirm" value="{{ __('Guardar') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     @stop
     @section('css')
         <style>
@@ -178,7 +210,19 @@
     @stop
     @section('javascript')
         <script>
-            
+            $(document).ready(function(){
+                //pasar datos frm editar
+                // $(".btn-edit").click(function(){
+                //     let monto = $(this).data("monto")
+                //    $("#input-monto").val(monto)
+                // })
+                 var deleteFormAction;
+            $('td').on('click', '.delete', function (e) {
+                $('#delete_form')[0].action = '{{ route('abonar', ['id' => '__id']) }}'.replace('__id', $(this).data('id'));
+                $('#delete_modal').modal('show');
+            });
+            })
+           
         </script>
     @stop
 

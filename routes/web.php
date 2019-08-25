@@ -24,4 +24,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/vehicles/selectvehicle','OrdenController@selectVehicle');
     Route::get('/choferes/selectchofer','OrdenController@selectChofer');
     Route::resource('cobrarcuentas','CobrarCuentaController');
+    Route::post('abonar/{id}','CobrarCuentaController@storeabono')->name('abonar');
 });
