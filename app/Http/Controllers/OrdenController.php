@@ -6,6 +6,8 @@ use App\Carga;
 use App\Detalle;
 use App\Cliente;
 use App\Cuenta;
+use App\Cuentaxpagar;
+use App\Detallecuentaxpagar;
 use App\DetalleCuenta;
 use App\Ruta;
 use App\Vehiculo;
@@ -22,7 +24,8 @@ class OrdenController extends Controller
      */
     public function index()
     {
-        $cargas = Carga::orderBy('id','desc')
+        $cargas = Carga::with(['cliente','ruta'])
+                                    ->orderBy('id','desc')
                                     ->paginate(10);
         return view('ordenes.index', compact('cargas'));
     }
@@ -45,7 +48,6 @@ class OrdenController extends Controller
      */
     public function store(Request $request)
     {
-        
         $products = collect($request->products)->transform(function($product) {
             $product['subtotal'] = $product['capacidad'] * $product['precio'];
             $product['total'] = ($product['subtotal'] - $product['anticipo']) - $product['comision'];
@@ -64,6 +66,35 @@ class OrdenController extends Controller
         $data['pago_transporte'] = $products->sum('total');
         $carga = Carga::create($data);
         $carga->products()->saveMany($products);
+
+        //obtenemos el detalle de la carga
+        $crgadetalles = collect($carga->products);
+        //rrecorremos para cambiarle el estado a todos los originales
+        foreach ($crgadetalles as $detalle) {
+            if ($detalle->anticipo > 0) {
+                if ($detalle->total == 0) {
+                    $estadocp = Cuentaxpagar::FINALIZADO;
+                }else {
+                    $estadocp = Cuentaxpagar::VIGENTE;
+                }
+                $cuentapagar = new Cuentaxpagar;
+                $cuentapagar->detalle_id = $detalle->id;
+                $cuentapagar->deuda = $detalle->total;
+                $cuentapagar->estado = $estadocp;
+                $cuentapagar->save();
+                
+                $det_cuenta_pagar = new Detallecuentaxpagar;
+                $det_cuenta_pagar->cuenta_id = $cuentapagar->id;
+                $det_cuenta_pagar->abonado =$detalle->anticipo;
+                $det_cuenta_pagar->save();
+            }else {
+                $cuentapagar = new Cuentaxpagar;
+                $cuentapagar->detalle_id = $detalle->id;
+                $cuentapagar->deuda = $detalle->total;
+                $cuentapagar->estado = Cuentaxpagar::VIGENTE;
+                $cuentapagar->save();
+            }
+         }
 
         //guardamos las cuentas por cobrar
         if ($carga->anticipo) {

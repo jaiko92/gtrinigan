@@ -38,34 +38,81 @@
                         <p>Origen: {{$carga->ruta->origen}}  Destino: {{$carga->ruta->destino}}</p>
                     </div>
                     <div class="form-group">
-                        <label>Motivo Consulta</label>
-                        <pre class="pre">{{$carga->id}}</pre>
+                        <label>Observacion</label>
+                        <pre class="pre">{{$carga->observacion}}</pre>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label>Cliente</label>
-                          <p>{{$carga->cliente->razon_social}}</p>
+                        <label>Cliente:</label>
+                          {{$carga->cliente->razon_social}}
+                    </div>
+                    <div class="form-group">
+                        <label>Anticipo</label>
+                          {{$carga->anticipo}}
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad de Reses</label>
+                          {{$carga->cantidad_reses}}
                     </div>
                 </div>
             </div>
             <hr>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Vehiculo</th>
-                        <th>Chofer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($carga->products as $product)
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
                         <tr>
-                            <td class="table-name">{{$product->vehiculo_id}}</td>
-                            <td class="table-qty">{{$product->chofer_id}}</td>
+                            <th>Placa Vehiculo</th>
+                            <th>Chofer</th>
+                            <th>Cantidad reses</th>
+                            <th>Observacion</th>
+                            <th>Precio</th>
+                            <th>SubTotal</th>
+                            <th>Anticipo</th>
+                            <th>Comision</th>
+                             <th>Total</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($carga->products as $product)
+                            <tr>
+                                <td>{{$product->vehiculo->placa}}</td>
+                                <td>{{$product->chauffeur->nombres}}</td>
+                                <td>{{$product->cantidad}}</td>
+                                <td>{{$product->observacion}}</td>
+                                <td>{{$product->precio}}</td>
+                                <td>{{$product->subtotal}}</td>
+                                <td>{{$product->anticipo}}</td>
+                                <td>{{$product->comision}}</td>
+                                 <td>{{$product->total}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                     <tfoot> <!-- Pie de tabla -->
+                        <tr>
+                            <th>Total Envio</th>
+                            <th colspan="8" style="text-align:right">{{$carga->precio_envio}}</th>        
+                        </tr>
+                        <tr>
+                            <th>Total Anticipos</th>
+                            <th colspan="8" style="text-align:right">{{$carga->products->sum('anticipo')}}</th>        
+                        </tr>
+                        <tr>
+                            <th>Total Comision</th>
+                            <th colspan="8" style="text-align:right">{{$carga->products->sum('comision')}}</th>        
+                        </tr>
+                        <tr>
+                            <th>Total Pagos Transporte</th>
+                            <th colspan="8"style="text-align:right">{{$carga->pago_transporte}}</th>        
+                        </tr>
+                         <tr>
+                            <th>Cantidad reses llevadas</th>
+                            <th colspan="8" style="text-align:right">{{$carga->cant_llevadas}}</th>        
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+           
         </div>
     </div>
 </div>

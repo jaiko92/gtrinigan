@@ -1,8 +1,8 @@
 @extends('voyager::master')
-@section('page_title', 'Cuentas por cobrar')
+@section('page_title', 'Cuentas por pagar')
     @section('page_header')
         <h1 class="page-title">
-            <i class="voyager-home"></i> Lista Cuentas por Cobrar
+            <i class="voyager-home"></i> Lista Cuentas por Pagar
         </h1>
         <a href="" class="btn btn-danger btn-add-new"> lista PDF
             <i class=""></i> <span></span>
@@ -35,29 +35,29 @@
                                     <table id="dataTable" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-md-2">Codigo carga</th>
-                                                <th >Cliente</th>
-                                                <th class="col-md-2">Costo carga</th>
+                                                <th class="col-md-2">Codigo envio</th>
+                                                <th >Dueño Camion</th>
+                                                <th class="col-md-2">Costo envio</th>
                                                 <th class="col-md-2">Deuda</th>
                                                  <th class="col-md-1">Estado</th>
                                                 <th class="col-md-3" class="actions text-right">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                @forelse($cobrarcuentas  as $cobrarcuenta)
+                                                @forelse($pagarcuentas  as $pagarcuenta)
                                                 <tr>
-                                                    <td>{{$cobrarcuenta->carga->id}}</td>
-                                                    <td>{{$cobrarcuenta->carga->cliente->razon_social}}</td>
-                                                    <td>{{$cobrarcuenta->carga->precio_envio}}</td>
-                                                    <td>{{$cobrarcuenta->deuda}}</td>
-                                                    <td>{{$cobrarcuenta->estado}}</td>
+                                                    <td>{{$pagarcuenta->detalle->id}}</td>
+                                                    <td>{{$pagarcuenta->detalle->vehiculo->owner->nombre}}</td>
+                                                    <td>{{$pagarcuenta->detalle->subtotal}}</td>
+                                                    <td>{{$pagarcuenta->deuda}}</td>
+                                                    <td>{{$pagarcuenta->estado}}</td>
                                                     <td class="no-sort no-click" id="bread-actions">
-                                                       @if($cobrarcuenta->estado != "finalizado")
-                                                           <a href="javascript:;" title="pagar" class="btn btn-sm btn-primary delete" data-id="{{$cobrarcuenta->id}}" id="delete-{{$cobrarcuenta->id}}">
+                                                       @if($pagarcuenta->estado != "finalizado")
+                                                           <a href="javascript:;" title="pagar" class="btn btn-sm btn-primary delete" data-id="{{$pagarcuenta->id}}" id="delete-{{$pagarcuenta->id}}">
                                                             <span class="hidden-xs hidden-sm">Abonar</span>
                                                            </a>
                                                        @endif
-                                                        <a href="{{route('cobrarcuentas.show',$cobrarcuenta)}}" title="ver" class="btn btn-sm btn-warning " >
+                                                        <a href="{{route('pagarcuentas.show',$pagarcuenta)}}" title="ver" class="btn btn-sm btn-warning " >
                                                             <span class="hidden-xs hidden-sm">Ver</span>
                                                            </a>
                                                          <button class="btn btn-success fade" 
@@ -75,7 +75,7 @@
                                     </table>
                                 </div>
                                  <div class="pull-right">
-                                        {{$cobrarcuentas->links() }} 
+                                        {{$pagarcuentas->links() }} 
                                  </div>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                 // })
                  var deleteFormAction;
             $('td').on('click', '.delete', function (e) {
-                $('#delete_form')[0].action = '{{ route('abonar', ['id' => '__id']) }}'.replace('__id', $(this).data('id'));
+                $('#delete_form')[0].action = '{{ route('pagar', ['id' => '__id']) }}'.replace('__id', $(this).data('id'));
                 $('#delete_modal').modal('show');
             });
             })

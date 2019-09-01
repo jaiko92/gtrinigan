@@ -28,7 +28,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Cliente</th>
-                                                    <th>Ruta</th>
+                                                    <th>Ruta origen</th>
+                                                    <th>Ruta destino</th>
                                                     <th>Cantidad-Reses</th>
                                                     <th>Costo Carga</th>
                                                     <th>Anticipo</th>
@@ -40,8 +41,9 @@
                                                  @php setlocale(LC_ALL, 'es_ES'); @endphp
                                                 @foreach($cargas as $carga)
                                                     <tr>
-                                                        <td>{{$carga->cliente_id}}</td>
-                                                        <td>{{$carga->ruta_id}}</td>
+                                                        <td>{{$carga->cliente->razon_social}}</td>
+                                                        <td>{{$carga->ruta->origen}}</td>
+                                                         <td>{{$carga->ruta->destino}}</td>
                                                         <td>{{$carga->cantidad_reses}}</td>
                                                         <td>{{$carga->precio_envio}} Bs</td>
                                                         <td>{{$carga->anticipo}} Bs</td>

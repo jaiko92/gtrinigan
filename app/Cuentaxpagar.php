@@ -5,25 +5,22 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Cuenta extends Model
+class Cuentaxpagar extends Model
 {
+    protected $table = 'cuentaxpagar';
     const VIGENTE = 'vigente';
     const FINALIZADO = 'finalizado';
     
     public static $estados = [self::VIGENTE, self::FINALIZADO];
 
     protected $fillable = [ 'carga_id','deuda','estado'];
-
-    public function carga()
+   
+    public function detalle()
     {
-        return $this->belongsTo(Carga::class);
+        return $this->belongsTo(Detalle::class);
     }
-
-    /**
-     * Get all of the videos that are assigned this tag.
-     */
     public function detalles()
     {
-        return $this->hasMany(DetalleCuenta::class);
+        return $this->hasMany(Detallecuentaxpagar::class,'cuenta_id');
     }
 }

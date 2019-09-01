@@ -10,7 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+});
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,6 +29,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/address/selectRuta','OrdenController@selectRuta');
     Route::get('/vehicles/selectvehicle','OrdenController@selectVehicle');
     Route::get('/choferes/selectchofer','OrdenController@selectChofer');
+    //ruta para el registro de las cuentas por cobrar
     Route::resource('cobrarcuentas','CobrarCuentaController');
     Route::post('abonar/{id}','CobrarCuentaController@storeabono')->name('abonar');
+    //ruta para el registro de las cuentas por pagar
+    Route::resource('pagarcuentas','PagarCuentaController');
+    Route::post('pagar/{id}','PagarCuentaController@storeabono')->name('pagar');
+
+    //rutas para generar los extractos de cuentas
+    Route::get('extracto-clientes','ExtractosController@clientes')->name('extractoclientes');
+    Route::post('generarclientes','ExtractosController@clientextracto')->name('clientesgenerar');
+
 });

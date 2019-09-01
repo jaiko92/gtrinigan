@@ -11,13 +11,18 @@ class Detalle extends Model
         'carga_id', 'vehiculo_id', 'chofer_id', 'cantidad','observacion',
         'precio','subtotal','anticipo','comision','total'
     ];
-    public function invoice()
+
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class);
+    }
+    public function chauffeur()
+    {
+        return $this->belongsTo(Chauffeur::class,'chofer_id');
+    }
+    public function carga()
     {
         return $this->belongsTo(Carga::class);
     }
 
-    public function cuentas()
-    {
-        return $this->morphMany(Cuenta::class, 'cuenta');
-    }
 }

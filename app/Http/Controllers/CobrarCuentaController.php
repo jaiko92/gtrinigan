@@ -17,14 +17,14 @@ class CobrarCuentaController extends Controller
     
     public function index(){
         
-        $cuentas = Cuenta::with(['carga','carga.cliente'])->get();
-        return view('cuentasxcobrar.index', compact('cuentas'));
+        $cobrarcuentas = Cuenta::with(['carga','carga.cliente'])
+                                                   ->orderBy('id','desc')
+                                                   ->paginate(10);
+        return view('cuentasxcobrar.index', compact('cobrarcuentas'));
     }
 
-    public function store(Request $request){
-
-       
-
+    public function show(Cuenta $cobrarcuenta){
+        return view('cuentasxcobrar.show', compact('cobrarcuenta'));
     }
 
     public function storeabono(Request $request,$id){

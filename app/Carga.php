@@ -16,6 +16,11 @@ class Carga extends Model
     {
         return $this->hasMany(Detalle::class);
     }
+    
+    public function cuenta()
+    {
+        return $this->hasOne(Cuenta::class);
+    }
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -29,8 +34,4 @@ class Carga extends Model
         return $this->belongsTo(Cliente::class);
     }
 
-    public function cuentas()
-    {
-        return $this->morphMany(Cuenta::class, 'cuenta');
-    }
 }
