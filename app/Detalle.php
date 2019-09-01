@@ -25,4 +25,9 @@ class Detalle extends Model
         return $this->belongsTo(Carga::class);
     }
 
+    public function cuenta()
+    {
+        return $this->hasOne(Cuentaxpagar::class);
+    }
+
 }

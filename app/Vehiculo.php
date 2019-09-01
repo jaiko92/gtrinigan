@@ -11,4 +11,9 @@ class Vehiculo extends Model
     {
         return $this->belongsTo(Owner::class);
     }
+
+    public function detalles()
+    {
+        return $this->hasMany(Detalle::class);
+    }
 }

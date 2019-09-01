@@ -40,4 +40,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('extracto-clientes','ExtractosController@clientes')->name('extractoclientes');
     Route::post('generarclientes','ExtractosController@clientextracto')->name('clientesgenerar');
 
+    //rutas para generar los extractos de Los camioneros
+    Route::get('extracto-camioneros','ExtractosController@camioneros')->name('extractowners');
+    Route::post('generarcamioneros','ExtractosController@camioneroxtracto')->name('ownergenerar');
+
 });

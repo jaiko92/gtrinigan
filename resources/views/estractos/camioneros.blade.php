@@ -15,7 +15,7 @@
         <div class="row">
            <div class="col-md-12">
               <div  class="panel panel-bordered">
-                    <form action="{{route('clientesgenerar')}}" method="POST" target="_blank">
+                    <form action="{{route('ownergenerar')}}" method="POST" target="_blank">
                     @csrf
                     <div class="panel-body">
                             @if (count($errors) > 0)
@@ -29,10 +29,10 @@
                             @endif
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Seleccione el Cliente</label>
-                                    <select class="form-control select2" name="cliente_id">
-                                    @foreach ($clientes as $cliente)
-                                        <option value="{{$cliente->id}}">{{$cliente->razon_social}} - {{$cliente->documento}}</option>
+                                    <label>Seleccione al dueño de camion</label>
+                                    <select class="form-control select2" name="owner_id">
+                                    @foreach ($owners as $owner)
+                                        <option value="{{$owner->id}}">{{$owner->fullName}}</option>
                                     @endforeach
                                     </select>
                                 </div>
