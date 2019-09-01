@@ -1,292 +1,149 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Invoice</title>
-    <style media="screen">
-        body {
-            font-family: 'Segoe UI','Microsoft Sans Serif',sans-serif;
-        }
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Proforma de venta</title>
+        <style>
+            .btn-print{
+                background-color: #fa2a00;
+                color:white;
+                border: 1px solid #fa2a00;
+                padding: 5px 8px;
+                border-radius:5px
+            }
+            @media print {
+                #print{
+                    display: none;
+                }
+            }
+            body{
+                font-size: 11px;
+                font-family: 'Noto Sans', sans-serif;
+                /* border: 1px solid black;
+                border-radius: 1px; */
+                padding: 5px 10px;
+                margin: 0px
+            }
 
-        /*
-            These next two styles are apparently the modern way to clear a float. This allows the logo
-            and the word "Invoice" to remain above the From and To sections. Inserting an empty div
-            between them with clear:both also works but is bad style.
-            Reference:
-            http://stackoverflow.com/questions/490184/what-is-the-best-way-to-clear-the-css-style-float
-        */
-        header:before, header:after {
-            content: " ";
-            display: table;
-        }
+			@media all {
+			   div.saltopagina{
+			      display: none;
+			   }
+			}
 
-        header:after {
-            clear: both;
-        }
+			@media print{
+			   div.saltopagina{
+			      display:block;
+			      page-break-before:always;
+			   }
+			}
+		</style>
+    </head>
+    <body>
+        <table width="100%">
+                    <tr>
+                        <td width="30%" align="center" style="font-size:7px">
+                            <img src="{{url('storage').'/'.setting('empresa.logo')}}" alt="loginweb" width="60px"><br>
+                            <b>{{setting('empresa.nombre')}}</b><br>
 
-        .invoiceNbr {
-            font-size: 40px;
-            margin-right: 30px;
-            margin-top: 30px;
-            float: right;
-        }
+                            @if(setting('empresa.telefono')!='')
+                            <b>Telf: {{setting('empresa.telefono')}}</b>
+                            @endif
+                            @if(setting('empresa.telefono')!='' && setting('empresa.celular')!='')
+                                -
+                            @endif
+                            @if(setting('empresa.celular')!='')
+                            <b>Cel: {{setting('empresa.celular')}}</b><br>
+                            @endif
 
-        .logo {
-            float: left;
-        }
-
-        .from {
-            float: left;
-        }
-
-        .to {
-            float: right;
-        }
-
-        .fromto {
-            border-style: solid;
-            border-width: 1px;
-            border-color: #e8e5e5;
-            border-radius: 5px;
-            margin: 20px;
-            min-width: 200px;
-        }
-
-        .fromtocontent {
-            margin: 10px;
-            margin-right: 15px;
-        }
-
-        .panel {
-            background-color: #e8e5e5;
-            padding: 7px;
-        }
-
-        .items {
-            clear: both;
-            display: table;
-            padding: 20px;
-        }
-
-        /* Factor out common styles for all of the "col-" classes.*/
-        div[class^="col-"] {
-            display: table-cell;
-            padding: 7px;
-        }
-
-        /*for clarity name column styles by the percentage of width */
-        .col-1-10 {
-            width: 10%;
-        }
-
-        .col-1-52 {
-            width: 52%;
-        }
-
-        .row {
-            display: table-row;
-            page-break-inside: avoid;
-        }
-
-    </style>
-
-    <!-- These styles are exactly like the screen styles except they use points (pt) as units
-        of measure instead of pixels (px) -->
-    <style media="print">
-        body {
-            font-family: 'Segoe UI','Microsoft Sans Serif',sans-serif;
-        }
-
-        header:before, header:after {
-            content: " ";
-            display: table;
-        }
-
-        header:after {
-            clear: both;
-        }
-
-        .invoiceNbr {
-            font-size: 30pt;
-            margin-right: 30pt;
-            margin-top: 30pt;
-            float: right;
-        }
-
-        .logo {
-            float: left;
-        }
-
-        .from {
-            float: left;
-        }
-
-        .to {
-            float: right;
-        }
-
-        .fromto {
-            border-style: solid;
-            border-width: 1pt;
-            border-color: #e8e5e5;
-            border-radius: 5pt;
-            margin: 20pt;
-            min-width: 200pt;
-        }
-
-        .fromtocontent {
-            margin: 10pt;
-            margin-right: 15pt;
-        }
-
-        .panel {
-            background-color: #e8e5e5;
-            padding: 7pt;
-        }
-
-        .items {
-            clear: both;
-            display: table;
-            padding: 20pt;
-        }
-
-        div[class^="col-"] {
-            display: table-cell;
-            padding: 7pt;
-        }
-
-        .col-1-10 {
-            width: 10%;
-        }
-
-        .col-1-52 {
-            width: 52%;
-        }
-
-        .row {
-            display: table-row;
-            page-break-inside: avoid;
-        }
-    </style>
-
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <img src="../images/genericlogo.jpg" alt="generic business logo" height="181" width="167" />
-        </div>
-        <div class="invoiceNbr">
-            Invoice 00014
-            <br />
-            9/1/2014
-        </div>
-    </header>
-
-    <div class="fromto from">
-        <div class="panel">FROM:</div>
-        <div class="fromtocontent">
-            <span>Robert Crowley</span><br />
-            <span>123 My St.</span><br />
-            <span>Portland ME, 04101</span><br />
-        </div>
-    </div>
-    <div class="fromto to">
-        <div class="panel">TO:</div>
-        <div class="fromtocontent">
-            <span>Someone</span><br />
-            <span>123 Street St.</span><br />
-            <span>Portland ME, 04101</span>
-        </div>
-    </div>
-
-    <section class="items">
-
-        <!-- your favorite templating/data-binding library would come in handy here to generate these rows dynamically !-->
-        <div class="row">
-            <div class="col-1-10 panel">
-                Date
-            </div>
-            <div class="col-1-52 panel">
-                Description
-            </div>
-            <div class="col-1-10 panel">
-                Units
-            </div>
-            <div class="col-1-10 panel">
-                Rate
-            </div>
-            <div class="col-1-10 panel">
-                Sub Total
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-1-10">
-                8/30/2014
-            </div>
-            <div class="col-1-52">
-                Mares eat oats and does eat oats and little lambs eat ivy.
-            </div>
-            <div class="col-1-10">
-                12
-            </div>
-            <div class="col-1-10">
-                25
-            </div>
-            <div class="col-1-10">
-                $300.00
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-1-10">
-                9/1/2014
-            </div>
-            <div class="col-1-52">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel massa erat. Suspendisse sit amet placerat felis. Sed consequat semper leo sed ultrices. Morbi dignissim ligula vel tellus congue, ut ornare massa egestas. Nulla ut rutrum felis. Pellentesque imperdiet, mi quis mollis placerat, urna lacus porta turpis, sit amet scelerisque purus neque et libero. Etiam in rutrum purus, ac fringilla diam. Etiam sed tortor justo. Nulla est massa, cursus sed eleifend consectetur, aliquam semper ligula. Vivamus non tellus id quam semper consequat. Morbi eget euismod mi. Nulla quis blandit est. Sed eleifend massa vel nisl ornare, sed vulputate arcu dictum. Cras pulvinar eros sit amet est rutrum sollicitudin. Morbi vitae diam congue, commodo nunc vel, tristique lacus.
-            </div>
-            <div class="col-1-10">
-                12
-            </div>
-            <div class="col-1-10">
-                25
-            </div>
-            <div class="col-1-10">
-                $300.00
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-1-10">
-                9/3/2014
-            </div>
-            <div class="col-1-52">
-                Morbi eget euismod mi. Nulla quis blandit est. Sed eleifend massa vel nisl ornare, sed vulputate arcu dictum. Cras pulvinar eros sit amet est rutrum sollicitudin. Morbi vitae diam congue, commodo nunc vel, tristique lacus.
-            </div>
-            <div class="col-1-10">
-                12
-            </div>
-            <div class="col-1-10">
-                25
-            </div>
-            <div class="col-1-10">
-                $300.00
-            </div>
-        </div>
-        <div class="row panel">
-            <div class="col-1-10">
-
-            </div>
-            <div class="col-1-52">
-
-            </div>
-            <div class="col-1-10">
-
-            </div>
-            <div class="col-1-10">
-                Pay this amount:
-            </div>
-            <div class="col-1-10">
-                $900.00
-            </div>
-        </div>
-    </section>
-</body>
+                            <b>{{setting('empresa.direccion')}}</b><br>
+                            <b>{{setting('empresa.ciudad')}}</b><br>
+                        </td>
+                        <td width="70%" align="center"><span style="margin-bottom:0px;font-weight:bold;font-size:25px">EXTRACTO</span></td>
+                    </tr>
+                </table>
+                {{-- datos de la venta --}}
+                {{-- <div style="height:20px"></div> --}}
+                <table width="90%" align="center">
+                    <tr>
+                        <td><b>Razón social</b></td>
+                        <td>: {{$cliente->razon_social}}</td>
+                        <td align="right"><b>NIT/CI</b></td>
+                        <td>: {{$cliente->documento}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Fecha</b></td>
+                        <td>desde:{{$ini}} hasta: {{$fecha_fin}}</td>
+                        <td align="right"><b>Ubicación</b></td>
+                        <td>: {{setting('empresa.ciudad')}}</td>
+                    </tr>
+                </table>
+                <br>
+                 <br>
+                {{-- detalle de las cuentas --}}
+                @forelse ($cliente->cargas as $item)
+                      <table width="100%" align="center">
+                            <tr>
+                                <td><b>Codigo de Cuenta</b></td>
+                                <td>{{$item->cuenta->id}}</td>
+                                <td align="right"><b>Codigo de Carga</b></td>
+                                <td>{{$item->id}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Precio Envio</b></td>
+                                <td>{{number_format($item->precio_envio)}}</td>
+                                <td align="right"><b>Anticipo</b></td>
+                                <td>{{number_format(($item->anticipo), 2, ',', '.')}}</td>
+                            </tr>
+                            <tr>
+                               <td><b>Estado de Cuenta</b></td>
+                               <td>{{$item->cuenta->estado}}</td>
+                               <td align="right"><b>Debe</b></td>
+                                <td>{{number_format(($item->cuenta->deuda), 2, ',', '.')}}</td>
+                            </tr>
+                        </table>
+                     <table width="100%" border="1px" cellspacing="0" cellpadding="2">
+                        <tr style="background-color:#022A81;color:#fff">
+                            {{-- <td align="center" width="80px"><b>Código</b></td> --}}
+                            <td align="center"><b>Cantidad Pagada</b></td>
+                            <td align="center"><b>Fecha</b></td>
+                        </tr>
+                        @foreach ($item->cuenta->detalles as $detail)
+                            <tr>
+                                <td align="center">{{number_format(($detail->abonado), 2, ',', '.')}}</td>
+                                {{-- <td>{{$detail->codigo}}</td> --}}
+                                <td align="center">{{$detail->created_at}} &nbsp; {{$detail->created_at->diffForHumans()}}</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="1" style="text-align:left"><b>TOTAL PAGOS.</b></td>
+                            <td style="text-align:right"><b>{{$item->cuenta->detalles->count()}}</b></td>
+                        </tr>
+                    </table>   
+                     {{-- datos de dosificacion --}}
+                    <div style="height:10px"></div>
+                    <table width="90%" align="center">
+                        <tr>
+                            <td><b>Total deuda : </b> {{number_format(($item->cuenta->sum('deuda')), 2, ',', '.')}}</td>
+                        </tr>
+                    </table>
+                @empty
+                        <p>
+                            No tiene ninguna cuenta asociada
+                        </p>
+                @endforelse
+                
+                {{-- <div style="height:10px"></div> --}}
+               
+                
+        <script>
+            // window.print();
+            // setTimeout(function(){
+            //     window.close();
+            // }, 10000);
+        </script>
+    </body>
 </html>
+

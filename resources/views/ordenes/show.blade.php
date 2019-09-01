@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label>Anticipo</label>
-                          {{$carga->anticipo}}
+                          {{number_format($carga->anticipo)}}
                     </div>
                     <div class="form-group">
                         <label>Cantidad de Reses</label>
@@ -91,19 +91,19 @@
                      <tfoot> <!-- Pie de tabla -->
                         <tr>
                             <th>Total Envio</th>
-                            <th colspan="8" style="text-align:right">{{$carga->precio_envio}}</th>        
+                            <th colspan="8" style="text-align:right">{{number_format($carga->precio_envio)}}</th>        
                         </tr>
                         <tr>
                             <th>Total Anticipos</th>
-                            <th colspan="8" style="text-align:right">{{$carga->products->sum('anticipo')}}</th>        
+                            <th colspan="8" style="text-align:right">{{number_format($carga->products->sum('anticipo'))}}</th>        
                         </tr>
                         <tr>
                             <th>Total Comision</th>
-                            <th colspan="8" style="text-align:right">{{$carga->products->sum('comision')}}</th>        
+                            <th colspan="8" style="text-align:right">{{number_format($carga->products->sum('comision')) }}</th>        
                         </tr>
                         <tr>
                             <th>Total Pagos Transporte</th>
-                            <th colspan="8"style="text-align:right">{{$carga->pago_transporte}}</th>        
+                            <th colspan="8"style="text-align:right">{{number_format($carga->pago_transporte, 2, ',', '.')}}</th>        
                         </tr>
                          <tr>
                             <th>Cantidad reses llevadas</th>

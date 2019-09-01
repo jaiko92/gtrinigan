@@ -45,8 +45,8 @@
                                                         <td>{{$carga->ruta->origen}}</td>
                                                          <td>{{$carga->ruta->destino}}</td>
                                                         <td>{{$carga->cantidad_reses}}</td>
-                                                        <td>{{$carga->precio_envio}} Bs</td>
-                                                        <td>{{$carga->anticipo}} Bs</td>
+                                                        <td>{{number_format($carga->precio_envio)}} Bs</td>
+                                                        <td>{{number_format($carga->anticipo)}} Bs</td>
                                                         <td>{{$carga->created_at->diffForHumans()}}</td>
                                                         <td>
                                                             <a href="{{route('cargas.show', $carga)}}" class="btn btn-default btn-sm">Ver

@@ -19,14 +19,15 @@ class ExtractosController extends Controller
         if (!empty($request->fin)) {
             $ini = $request->inicio;
             $fecha_fin = $request->fin;
-            $clientes = Cliente::with(['cargas','carga.products','carga.cuenta','carga.cuenta.detalles'])
-            ->whereHas('cargas', function ($query) use ( $ini,$fecha_fin){
-                $query->whereBetween('created_at',[$ini,$fecha_fin]);
-                })
-                ->orderBy('id','desc')
-                ->get();
+            $cliente = Cliente::with(['cargas','cargas.products','cargas.cuenta','cargas.cuenta.detalles'])
+                                            ->where('id',$request->cliente_id)
+                                            ->whereHas('cargas', function ($query) use ( $ini,$fecha_fin){
+                                                $query->whereBetween('created_at',[$ini,$fecha_fin]);
+                                                })
+                                                ->orderBy('id','desc')
+                                                ->first();
         }
-           $vista = view('reportes.clientes', compact('clientes'));
+           $vista = view('reportes.clientes', compact('cliente','ini','fecha_fin'));
             $pdf = \App::make('dompdf.wrapper');
           //  $pdf->loadHTML($vista);
            $pdf->loadHTML($vista)->setPaper('a4', 'landscape');
