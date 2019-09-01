@@ -47,6 +47,11 @@
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = // YOUR CSRF TOKEN;
         Vue.http.headers.common['X-CSRF-TOKEN'] = '{{csrf_token()}}';
         Vue.component('v-select', VueSelect.VueSelect);
+        Vue.filter('formatMoney', (value) => {
+                return Number(value)
+                    .toFixed(2)
+                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        });
         window._form = {
             arrayCliente:[],
             arrayRuta: [],

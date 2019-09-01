@@ -116,5 +116,20 @@ var app = new Vue({
                 Vue.set(this.$data, 'errors', response.data);
                 })
         }
-    }
+    },
+    computed: {
+        precioCarga(){
+               return this.form.products.reduce((total, item) => {
+                    return total + (Number(item.capacidad) * Number(item.precio))
+                }, 0)
+        },
+        totalPagoTransporte(){
+               return this.form.products.reduce((total, item) => {
+                    return total + (((Number(item.capacidad) * Number(item.precio)) - item.anticipo) - item.comision)
+                }, 0)
+        },
+        total() {
+           return this.subTotal - Number(this.form.discount)
+         }
+    },
 });

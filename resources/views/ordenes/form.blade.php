@@ -86,6 +86,7 @@
             <th>Anticipo</th>
             <th>Comision</th>
             <th class="col-md-1">Total</th>
+            <th class="col-md-1">quitar</th>
         </tr>
     </thead>
     <tbody>
@@ -160,10 +161,17 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="table-empty" colspan="2">
+            <td class="table-empty" colspan="11">
                 <span @click="addLine" class="table-add_line">Agregar linea</span>
-
             </td>
+        </tr>
+        <tr>
+            <td class="form-summary">Precio Carga</td>
+            <td colspan="10">@{{precioCarga | formatMoney}}</td>
+        </tr>
+        <tr>
+            <td class="form-summary">Total Pago Transporte</td>
+            <td colspan="10">@{{totalPagoTransporte | formatMoney}}</td>
         </tr>
     </tfoot>
 </table>
