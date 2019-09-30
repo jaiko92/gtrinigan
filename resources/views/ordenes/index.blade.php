@@ -24,7 +24,7 @@
                             <div class="panel-body">
                                 @if($cargas->count())
                                     <div class="table-responsive">
-                                          <table class="table table-bordered table-hover">
+                                          <table id="DataTable" class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Cliente</th>
@@ -49,15 +49,15 @@
                                                         <td>{{number_format($carga->anticipo)}} Bs</td>
                                                         <td>{{$carga->created_at->diffForHumans()}}</td>
                                                         <td>
-                                                            <a href="{{route('cargas.show', $carga)}}" class="btn btn-default btn-sm">Ver
+                                                            <a href="{{route('cargas.show', $carga)}}" class="btn btn-info btn-sm">Ver
                                                             </a>
-                                                            <form class="form-inline" method="post"
+                                                           {{--  <form class="form-inline" method="post"
                                                                 action="{{route('cargas.destroy', $carga)}}"
                                                                 onsubmit="return confirm('¿Estás seguro?')">
                                                                 <input type="hidden" name="_method" value="delete">
                                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                                 <input class="btn btn-danger pull-left" type="submit" value="delete">
-                                                            </form>
+                                                            </form> --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -81,6 +81,31 @@
 @stop
 @section('javascript')
  <script>
-    
+    $(document).ready(function(){
+
+
+
+         $('#DataTable').DataTable({
+                    
+                    //le mandamos un json
+                    "language":{
+                        "info":"_TOTAL_ registro",
+                        "search":"Buscar",
+                        "paginate":{
+                            "next":"Siguiente",
+                            "previous":"Anterior",
+                        },
+                        "loadingRecords":"Cargando...",
+                        "processing":"Procesando...",
+                        "emptyTable":"No hay datos!",
+                        "zeroRecords":"No hay coincidencias",
+                        "infoEmpty":"",
+                        "infoFiltered":""
+                    }
+
+
+
+                });
+    });
  </script>
 @stop

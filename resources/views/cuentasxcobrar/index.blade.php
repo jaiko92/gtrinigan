@@ -4,9 +4,9 @@
         <h1 class="page-title">
             <i class="voyager-home"></i> Lista Cuentas por Cobrar
         </h1>
-        <a href="" class="btn btn-danger btn-add-new"> lista PDF
+        {{-- <a href="" class="btn btn-danger btn-add-new"> lista PDF
             <i class=""></i> <span></span>
-        </a>
+        </a> --}}
     @stop
     @section('content')
         <div class="page-content">
@@ -18,7 +18,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="col-md-8"></div>
+                                        {{-- <div class="col-md-8"></div>
                                         <form id="form-search" class="form-search">
                                             <div class="input-group col-md-4">
                                                 <input type="text" id="search_value" class="form-control" name="s" value="" placeholder="Buscar : Cliente, Carga,Estado">
@@ -28,11 +28,11 @@
                                                     </button>
                                                 </span>
                                             </div>
-                                        </form>
+                                        </form> --}}
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="dataTable" class="table table-bordered table-hover">
+                                    <table id="example" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="col-md-2">Codigo carga</th>
@@ -58,11 +58,9 @@
                                                            </a>
                                                        @endif
                                                         <a href="{{route('cobrarcuentas.show',$cobrarcuenta)}}" title="ver" class="btn btn-sm btn-warning " >
-                                                            <span class="hidden-xs hidden-sm">Ver</span>
+                                                            <span class="hidden-xs hidden-sm">Ver detalle</span>
                                                            </a>
-                                                         <button class="btn btn-success fade" 
-                                                            data-id="" data-toggle="modal" data-target="#modal_detalleCxC">mov..
-                                                        </button>
+                                                        
                                                     </td>
                                                 </tr>
                                                 @empty
@@ -216,17 +214,33 @@
     @section('javascript')
         <script>
             $(document).ready(function(){
-                //pasar datos frm editar
-                // $(".btn-edit").click(function(){
-                //     let monto = $(this).data("monto")
-                //    $("#input-monto").val(monto)
-                // })
+                $('#example').DataTable({
+                    
+                    //le mandamos un json
+                    "language":{
+                        "info":"_TOTAL_ registro",
+                        "search":"Buscar",
+                        "paginate":{
+                            "next":"Siguiente",
+                            "previous":"Anterior",
+                        },
+                        "loadingRecords":"Cargando...",
+                        "processing":"Procesando...",
+                        "emptyTable":"No hay datos!",
+                        "zeroRecords":"No hay coincidencias",
+                        "infoEmpty":"",
+                        "infoFiltered":""
+                    }
+
+
+
+                });
                  var deleteFormAction;
             $('td').on('click', '.delete', function (e) {
                 $('#delete_form')[0].action = '{{ route('abonar', ['id' => '__id']) }}'.replace('__id', $(this).data('id'));
                 $('#delete_modal').modal('show');
             });
-            })
+            });
            
         </script>
     @stop

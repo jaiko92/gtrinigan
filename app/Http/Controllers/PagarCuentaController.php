@@ -17,7 +17,7 @@ class PagarCuentaController extends Controller
     {
         $pagarcuentas = Cuentaxpagar::with(['detalle','detalle.vehiculo.owner'])
                                                    ->orderBy('id','desc')
-                                                   ->paginate(10);
+                                                ->paginate(10);
         return view('cuentasxpagar.index', compact('pagarcuentas'));
     }
 

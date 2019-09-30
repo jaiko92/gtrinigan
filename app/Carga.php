@@ -10,7 +10,7 @@ class Carga extends Model
     protected $fillable = [
         'cliente_id', 'ruta_id', 'user_id',
         'cantidad_reses','cant_llevadas', 'precio_envio', 'anticipo',
-        'pago_transporte', 'observacion'
+        'pago_transporte','deuda_transporte', 'observacion'
     ];
     public function products()
     {

@@ -64,6 +64,7 @@ class OrdenController extends Controller
         $data['precio_envio'] = $products->sum('subtotal'); 
         $data['cant_llevadas'] = $products->sum('cantidad');
         $data['pago_transporte'] = $products->sum('total');
+        $data['deuda_transporte'] = $products->sum('total');
         $carga = Carga::create($data);
         $carga->products()->saveMany($products);
 

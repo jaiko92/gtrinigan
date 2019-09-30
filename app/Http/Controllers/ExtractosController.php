@@ -9,12 +9,12 @@ use App\Owner;
 class ExtractosController extends Controller
 {
     public function clientes(){
-        $clientes = Cliente::orderBy('id','desc')->get();
+        $clientes = Cliente::has('cargas')->orderBy('id','desc')->get();
         return view('estractos.clientes', compact('clientes'));
     }
 
     public function camioneros () {
-        $owners = Owner::orderBy('id','desc')->get();
+        $owners = Owner::has('vehiculo.detalles.cuenta')->orderBy('id','desc')->get();
         return view('estractos.camioneros', compact('owners'));
     }
     public function clientextracto (Request $request) {
@@ -33,6 +33,7 @@ class ExtractosController extends Controller
                                                 ->orderBy('id','desc')
                                                 ->first();
         }
+        
            $vista = view('reportes.clientes', compact('cliente','ini','fecha_fin'));
             $pdf = \App::make('dompdf.wrapper');
           //  $pdf->loadHTML($vista);

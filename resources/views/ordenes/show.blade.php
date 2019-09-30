@@ -102,8 +102,12 @@
                             <th colspan="8" style="text-align:right">{{number_format($carga->products->sum('comision')) }}</th>        
                         </tr>
                         <tr>
-                            <th>Total Pagos Transporte</th>
+                            <th>Deuda Inicial Pagos Transporte</th>
                             <th colspan="8"style="text-align:right">{{number_format($carga->pago_transporte, 2, ',', '.')}}</th>        
+                        </tr>
+                        <tr>
+                            <th>Deuda Pagos Transporte</th>
+                            <th colspan="8"style="text-align:right">{{number_format($carga->deuda_transporte, 2, ',', '.')}}</th>        
                         </tr>
                          <tr>
                             <th>Cantidad reses llevadas</th>

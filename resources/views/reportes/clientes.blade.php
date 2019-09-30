@@ -112,7 +112,8 @@
                         </tr>
                         @foreach ($item->cuenta->detalles as $detail)
                             <tr>
-                                <td align="center">{{number_format(($detail->abonado), 2, ',', '.')}}</td>
+                                <td align="center">{{number_format(($detail->abonado), 2, ',', '
+                                .')}}</td>
                                 {{-- <td>{{$detail->codigo}}</td> --}}
                                 <td align="center">{{$detail->created_at}} &nbsp; {{$detail->created_at->diffForHumans()}}</td>
                             </tr>
